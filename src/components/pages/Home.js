@@ -2,10 +2,14 @@ import { Component } from "react";
 import "./Home.css";
 import PostCard from "../posts/PostCard";
 import { loadPosts } from "../utils/LoadPosts";
+import LinkButton from "../layout/LinkButton";
 
 class Home extends Component {
   state = {
     posts: [],
+    allPosts: [],
+    page: 0,
+    postsPerPage: 5,
   };
 
   async componentDidMount() {
@@ -13,12 +17,28 @@ class Home extends Component {
   }
 
   loadPosts = async () => {
+    const { page, postsPerPage } = this.state;
     const postsAndPhotos = await loadPosts();
-    this.setState({ posts: postsAndPhotos });
+    this.setState({
+      posts: postsAndPhotos.slice(page, postsPerPage),
+      allPosts: postsAndPhotos,
+    });
+  };
+
+  loadMorePosts = () => {
+    const { posts, page, postsPerPage, allPosts } = this.state;
+    const nextPage = page + postsPerPage;
+    const nextPosts = allPosts.slice(nextPage, nextPage + postsPerPage);
+
+    //vai espalhar os posts no array (spread)
+    posts.push(...nextPosts);
+    this.setState({ posts, page: nextPage });
   };
 
   render() {
-    const { posts } = this.state;
+    const { posts, page, postsPerPage, allPosts } = this.state;
+    const noMorePosts = page + postsPerPage >= allPosts.length;
+
     return (
       <section className="container">
         <div className="posts">
@@ -35,6 +55,11 @@ class Home extends Component {
             <div>pesquisar este blog</div>
           </div> */}
         </div>
+        <LinkButton
+          text={"Mais Posts"}
+          to={this.loadMorePosts}
+          disabled={noMorePosts}
+        />
       </section>
     );
   }
