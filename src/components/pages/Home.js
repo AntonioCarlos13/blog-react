@@ -1,8 +1,11 @@
+import { BrowserRouter as Router } from "react-router-dom";
 import { Component } from "react";
 import "./Home.css";
 import PostCard from "../posts/PostCard";
 import { loadPosts } from "../utils/LoadPosts";
 import LinkButton from "../layout/LinkButton";
+import Navbar from "../layout/Navbar";
+import Container from "../layout/Container";
 
 class Home extends Component {
   state = {
@@ -41,25 +44,30 @@ class Home extends Component {
 
     return (
       <section className="container">
-        <div className="posts">
-          {posts.map((post) => (
-            <PostCard
-              key={post.id}
-              id={post.id}
-              title={post.title}
-              body={post.body}
-              cover={post.cover}
-            />
-          ))}
-          {/* <div className="sidebar">
+        <Router>
+          <Navbar />
+          <Container customClass="min-height">
+            <div className="posts">
+              {posts.map((post) => (
+                <PostCard
+                  key={post.id}
+                  id={post.id}
+                  title={post.title}
+                  body={post.body}
+                  cover={post.cover}
+                />
+              ))}
+              {/* <div className="sidebar">
             <div>pesquisar este blog</div>
           </div> */}
-        </div>
-        <LinkButton
-          text={"Mais Posts"}
-          to={this.loadMorePosts}
-          disabled={noMorePosts}
-        />
+            </div>
+            <LinkButton
+              text={"Mais Posts"}
+              to={this.loadMorePosts}
+              disabled={noMorePosts}
+            />
+          </Container>
+        </Router>
       </section>
     );
   }
