@@ -1,5 +1,5 @@
 import { BrowserRouter as Router } from "react-router-dom";
-import { Component } from "react";
+import { useCallback, useEffect, useState } from "react";
 import "./Home.css";
 import { loadPosts } from "../utils/LoadPosts";
 import LinkButton from "../layout/LinkButton";
@@ -7,64 +7,60 @@ import Navbar from "../layout/Navbar";
 import Container from "../layout/Container";
 import { Posts } from "../posts/Posts";
 import { Input } from "../layout/Input";
+import {
+  FaFacebook,
+  FaInstagram,
+  FaLinkedin,
+  FaTwitter,
+  FaYoutube,
+} from "react-icons/fa";
 
-class Home extends Component {
-  state = {
-    posts: [],
-    allPosts: [],
-    page: 0,
-    postsPerPage: 2,
-    searchValue: "",
-  };
+export const Home = () => {
+  const [posts, setPosts] = useState([]);
+  const [allPosts, setAllPosts] = useState([]);
+  const [page, setPage] = useState(0);
+  const [postsPerPage] = useState(3);
+  const [searchValue, setSearchValue] = useState("");
 
-  async componentDidMount() {
-    await this.loadPosts();
-  }
-
-  loadPosts = async () => {
-    const { page, postsPerPage } = this.state;
+  const handleLoadPosts = useCallback(async (page, postsPerPage) => {
     const postsAndPhotos = await loadPosts();
-    this.setState({
-      posts: postsAndPhotos.slice(page, postsPerPage),
-      allPosts: postsAndPhotos,
-    });
-  };
 
-  loadMorePosts = () => {
-    const { posts, page, postsPerPage, allPosts } = this.state;
+    setPosts(postsAndPhotos.slice(page, postsPerPage));
+    setAllPosts(postsAndPhotos);
+  }, []);
+
+  useEffect(() => {
+    // console.log(new Date().toLocaleString('pt-BR'));
+    handleLoadPosts(0, postsPerPage);
+  }, [handleLoadPosts, postsPerPage]);
+
+  const loadMorePosts = () => {
     const nextPage = page + postsPerPage;
     const nextPosts = allPosts.slice(nextPage, nextPage + postsPerPage);
-
-    //vai espalhar os posts no array (spread)
     posts.push(...nextPosts);
-    this.setState({ posts, page: nextPage });
+
+    setPosts(posts);
+    setPage(nextPage);
   };
 
-  handleChange = (e) => {
+  const handleChange = (e) => {
     const { value } = e.target;
-    this.setState({ searchValue: value });
+    setSearchValue(value);
   };
 
-  render() {
-    const { posts, page, postsPerPage, allPosts, searchValue } = this.state;
-    const noMorePosts = page + postsPerPage >= allPosts.length;
+  const noMorePosts = page + postsPerPage >= allPosts.length;
+  const filteredPosts = searchValue
+    ? allPosts.filter((post) => {
+        return post.title.toLowerCase().includes(searchValue.toLowerCase());
+      })
+    : posts;
 
-    const filteredPosts = !!searchValue
-      ? allPosts.filter((post) => {
-          return post.title.toLowerCase().includes(searchValue.toLowerCase());
-        })
-      : posts;
-
-    return (
-      <section className="container">
-        <Router>
-          <Navbar />
-          <div className="title-search">
-            {!!searchValue && <h2>search value: {searchValue}</h2>}
-            <Input searchValue={searchValue} handleChange={this.handleChange} />
-          </div>
-
-          <Container customClass="min-height">
+  return (
+    <section>
+      <Router>
+        <Navbar />
+        <Container>
+          <div className="main_body">
             {filteredPosts.length > 0 && <Posts posts={filteredPosts} />}
 
             {filteredPosts.length === 0 && <p>Não existem posts!</p>}
@@ -73,15 +69,41 @@ class Home extends Component {
               <LinkButton
                 className="btn-container"
                 text={"Mais Posts"}
-                to={this.loadMorePosts}
+                to={loadMorePosts}
                 disabled={noMorePosts}
               />
             )}
-          </Container>
-        </Router>
-      </section>
-    );
-  }
-}
+          </div>
 
-export default Home;
+          <div className="right_sidebar">
+            <div className="title-search">
+              {/* {!!searchValue && <h2>search value: {searchValue}</h2>} */}
+              <Input searchValue={searchValue} handleChange={handleChange} />
+            </div>
+            <div className="sidebar-title">Rede Sociais</div>
+            <ul className="social_list">
+              <li id="fac">
+                <FaFacebook />
+              </li>
+              <li id="twi">
+                <FaTwitter />
+              </li>
+              <li id="ins">
+                <FaInstagram />
+              </li>
+              <li id="lin">
+                <FaLinkedin />
+              </li>
+              <li id="you">
+                <FaYoutube />
+              </li>
+            </ul>
+            <div className="sidebar-title">Marcadores</div>
+            <div className="sidebar-title">Postagens Recentes</div>
+            <div className="sidebar-title">Postagens Mais Visitadas</div>
+          </div>
+        </Container>
+      </Router>
+    </section>
+  );
+};

@@ -12,19 +12,30 @@
 }
 
 .post img {
-  width: 280px;
-  height: 200px;
+  max-width: 280px;
+  max-height: 200px;
   margin-right: 20px;
   border-radius: 5px;
 }
 
 .post_content {
   text-align: justify;
-  max-width: 400px;
-  flex-wrap: wrap;
 }
 
 .post_content p {
   margin-top: 10px;
   text-align: justify;
+}
+
+@media only screen and (max-width: 425px) {
+  .post img {
+    max-width: 120px;
+    max-height: 120px;
+  }
+  .post_content {
+    width: 210px;
+    margin: 0px;
+    padding: 0px;
+    text-align: justify;
+  }
 }

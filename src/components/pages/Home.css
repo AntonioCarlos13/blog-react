@@ -1,27 +1,110 @@
-.container {
-  min-height: 100vh;
-  background-color: #eaeaea;
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 20px;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Roboto", sans-serif;
+  text-align: justify;
+}
+
+.main_body {
+  float: left;
+  margin-left: 0%;
+  width: 75%;
+  padding: 0px 20px 15px 20px;
+}
+
+.right_sidebar {
+  float: left;
+  width: 25%;
+  padding: 0px 20px 15px 20px;
 }
 
 .posts {
-  margin-top: 20px;
+  margin-top: 30px;
   display: flex;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
   flex-wrap: wrap;
-  gap: 20px;
+  width: 100%;
+  gap: 30px;
 }
 
-.sidebar {
-  justify-content: center;
-  display: flex;
-  transform: none;
-  width: 350px;
-  margin: 0 auto;
+.sidebar-title {
+  padding: 10px;
+  margin: 0 0 15px;
+  border-radius: 5px;
+  background-color: #0b0b0a;
+  color: #fff;
+  font-size: 15px;
+  font-style: italic;
+  font-weight: bold;
 }
 
 .title-search h2 {
   margin-top: 10px;
+}
+
+.social_list {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  list-style: none;
+  margin: 1em 0;
+  max-width: 100%;
+}
+
+.social_list svg {
+  font-size: 1.5em;
+  cursor: pointer;
+}
+
+/* Ícones Redes Sociais */
+
+.social_list #fac svg {
+  color: #4267b2;
+}
+
+.social_list #twi svg {
+  color: #1da1f2;
+}
+
+.social_list #ins svg {
+  color: #e1306c;
+}
+
+.social_list #lin svg {
+  color: #0077b5;
+}
+
+.social_list #you svg {
+  color: #ff0000;
+}
+
+/*Tablets*/
+@media only screen and (max-width: 768px) {
+  .main_body {
+    width: 75%;
+  }
+
+  .right_sidebar {
+    width: 25%;
+  }
+}
+
+/*Smartphones*/
+@media only screen and (max-width: 568px) {
+  .main_body,
+  .right_sidebar {
+    width: 100%;
+  }
+
+  .main_body {
+    padding: 0px 20px 0px 20px;
+    margin-left: 0;
+  }
+
+  .right_sidebar {
+    padding: 0px 20px 10px 20px;
+  }
 }

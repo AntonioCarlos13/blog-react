@@ -1,14 +1,14 @@
 .navbar {
   display: flex;
   justify-content: space-between;
-  background-color: #222;
+  background-color: #0b0b0a;
   padding: 1em;
 }
 
 .navbar img {
   width: 85px;
   border-radius: 50%;
-  border: 5px solid #222;
+  border: 5px solid #0b0b0a;
 }
 
 .list {
