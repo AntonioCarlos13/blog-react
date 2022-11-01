@@ -1,26 +1,20 @@
-import { BrowserRouter as Router } from "react-router-dom";
-import { useCallback, useEffect, useState } from "react";
-import "./Home.css";
-import { loadPosts } from "../utils/LoadPosts";
-import { LinkButton } from "../layout/LinkButton";
-import Navbar from "../layout/Navbar";
-import Container from "../layout/Container";
-import { Posts } from "../posts/Posts";
-import { Input } from "../layout/Input";
-import {
-  FaFacebook,
-  FaInstagram,
-  FaLinkedin,
-  FaTwitter,
-  FaYoutube,
-} from "react-icons/fa";
+import { BrowserRouter as Router } from 'react-router-dom';
+import { React, useCallback, useEffect, useState } from 'react';
+import './Home.css';
+import { loadPosts } from '../utils/LoadPosts';
+import { LinkButton } from '../layout/LinkButton';
+import Navbar from '../layout/Navbar';
+import Container from '../layout/Container';
+import { Posts } from '../posts/Posts';
+import { Input } from '../layout/Input';
+import { FaFacebook, FaInstagram, FaLinkedin, FaTwitter, FaYoutube } from 'react-icons/fa';
 
 export const Home = () => {
   const [posts, setPosts] = useState([]);
   const [allPosts, setAllPosts] = useState([]);
   const [page, setPage] = useState(0);
   const [postsPerPage] = useState(3);
-  const [searchValue, setSearchValue] = useState("");
+  const [searchValue, setSearchValue] = useState('');
 
   const handleLoadPosts = useCallback(async (page, postsPerPage) => {
     const postsAndPhotos = await loadPosts();
@@ -68,7 +62,7 @@ export const Home = () => {
             {!searchValue && (
               <LinkButton
                 className="btn-container"
-                text={"Mais Posts"}
+                text={'Mais Posts'}
                 onClick={loadMorePosts}
                 disabled={noMorePosts}
               />
