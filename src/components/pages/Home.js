@@ -2,7 +2,7 @@ import { BrowserRouter as Router } from "react-router-dom";
 import { useCallback, useEffect, useState } from "react";
 import "./Home.css";
 import { loadPosts } from "../utils/LoadPosts";
-import LinkButton from "../layout/LinkButton";
+import { LinkButton } from "../layout/LinkButton";
 import Navbar from "../layout/Navbar";
 import Container from "../layout/Container";
 import { Posts } from "../posts/Posts";
@@ -69,14 +69,14 @@ export const Home = () => {
               <LinkButton
                 className="btn-container"
                 text={"Mais Posts"}
-                to={loadMorePosts}
+                onClick={loadMorePosts}
                 disabled={noMorePosts}
               />
             )}
           </div>
 
           <div className="right_sidebar">
-            <div className="title-search">
+            <div>
               {/* {!!searchValue && <h2>search value: {searchValue}</h2>} */}
               <Input searchValue={searchValue} handleChange={handleChange} />
             </div>
